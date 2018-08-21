@@ -1,0 +1,11 @@
+Escreva um programa que simule uma caixa registradora de uma loja.  O programa deve
+permitir a um usu ́ario inserir o pre ̧co de diversos produtos (que est ̃ao sendo passados no
+caixa).   O  programa  deve  somar  os  valores  dos  pre ̧cos  digitados.   Ap ́os  passar  todos  os
+pre ̧cos (terminou de passar os produtos), o sistema deve indicar o total e ent ̃ao perguntar
+qual a forma de pagamento:  dinheiro, cheque ou cart ̃ao de cr ́edito.  Se a op ̧c ̃ao for por o
+cart ̃ao de cr ́edito, o sistema deve permitir o parcelamento em at ́e 10 vezes, apresentando o
+valor da parcela.  Se a op ̧c ̃ao for o cheque o sistema deve permitir ao usu ́ario escolher entre
+o parcelamento em at ́e 3 vezes, apresentando o valor da parcela ou permitir o pagamento
+em parcela  ́unica com 5% de desconto (apresentando o valor com desconto).  Se a op ̧c ̃ao
+for por dinheiro, deve dar um desconto de 10% (apresentar o novo valor), solicitar valor
+entregue pelo usu ́ario e calcular o troco que o usu ́ario deve receber.
