@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Aluno
+ * @author Gabriel e Luan
  */
 public class Caixa {
 
@@ -25,19 +25,37 @@ public class Caixa {
             total = total + produto;
         }while(produto!=0);
         JOptionPane.showMessageDialog(null,"SubTotal = R$"+total+".");
-        menu = Integer.parseInt(JOptionPane.showInputDialog(null,"Selecione o método de pagamento:\n1 - Cheque\n2 - Dinheiro")); //Acho que esse pedaço pode ter função própria
-        switch(menu){                                                                                                            //Pra não ter que criar mais um laço de repetição
-            case 1:                                                                                                              //No main
-                cheque(total);
-                break;
-            case 2:
-                dinheiro(total);
-                break;
-            default:
-                JOptionPane.showMessageDialog(null,"Opção inválida! Tente Novamente.");
-                
-        }
+        menu = Integer.parseInt(JOptionPane.showInputDialog(null,"Escolha o método de pagamento:\n1 - Dinheiro\n2 - Cheque\n3 - Cartão de Crédito"));
+        menu(menu);
         }
     }
     
-
+class metodos{
+    void menu(int menu){
+        switch(menu){
+            case 1:
+                dinheiro(float total);
+                break;
+            case 2:
+                cheque(float total);
+                break;
+            case 3:
+                cartao(float total);
+                break;
+            default:
+                JOptionPane.showMessageDialog(null,"Opção Inválida! Tente novamente.");
+                menu(menu);
+                break;
+        }
+    }
+    float dinheiro(float total){
+        float novototal = total * 0.9;
+        
+    }
+    float cheque(float total){
+        
+    }
+    float cartao(float total){
+        
+    }
+}
