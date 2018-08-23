@@ -26,36 +26,43 @@ public class Caixa {
         }while(produto!=0);
         JOptionPane.showMessageDialog(null,"SubTotal = R$"+total+".");
         menu = Integer.parseInt(JOptionPane.showInputDialog(null,"Escolha o método de pagamento:\n1 - Dinheiro\n2 - Cheque\n3 - Cartão de Crédito"));
-        menu(menu);
+        Metodos metodo1 = new Metodos();
+        metodo1.Menu(menu, total);
         }
     }
     
-class metodos{
-    void menu(int menu){
+class Metodos{
+    void Menu(int menu, float valor){
+        int parcelamentoCartao;
+        int parcelamentoCheque;
+        float valorCartao;
+        float valorCheque;
+        double valorDinheiro;
+        
         switch(menu){
             case 1:
-                dinheiro(float total);
+                JOptionPane.showMessageDialog(null,"Você optou por dinheiro. Você possui 10% de desconto\n");
+                valorDinheiro = valor * 0.9;
+                JOptionPane.showMessageDialog(null, "O valor com desconto é "+valorDinheiro);
+                
+                
                 break;
             case 2:
-                cheque(float total);
+                JOptionPane.showMessageDialog(null,"Você optou por cheque. É possível parcelar em até 3x\n");
+                parcelamentoCheque = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite em até quantas vezes deseja parcelar\n"));
+                valorCheque = valor/parcelamentoCheque;
+                JOptionPane.showMessageDialog(null, "Dividindo em "+parcelamentoCheque+" cada parcela fica a "+valorCheque);
                 break;
             case 3:
-                cartao(float total);
+                JOptionPane.showMessageDialog(null,"Você optou por cartão de crédito. É possível parcelar em até 10x\n");
+                parcelamentoCartao = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite em até quantas vezes deseja parcelar"));
+                valorCartao = valor/parcelamentoCartao;
+                JOptionPane.showMessageDialog(null,"Dividindo em "+parcelamentoCartao+" cada parcela fica a "+valorCartao);
                 break;
             default:
                 JOptionPane.showMessageDialog(null,"Opção Inválida! Tente novamente.");
-                menu(menu);
                 break;
         }
     }
-    float dinheiro(float total){
-        float novototal = total * 0.9;
-        
-    }
-    float cheque(float total){
-        
-    }
-    float cartao(float total){
-        
-    }
 }
+  
