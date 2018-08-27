@@ -3,66 +3,46 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package caixa;
+package trabalhopoo1;
 
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Gabriel e Luan
+ * @author gabriel
+ * e luan
  */
-public class Caixa {
+public class TrabalhoPOO1 {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        float produto;
-        float total = 0;
-        int menu;
-        do{
-            produto = Float.parseFloat(JOptionPane.showInputDialog(null,"Entre com o valor do produto separado por ponto final.\n Digite '0' para sair."));
-            total = total + produto;
-        }while(produto!=0);
-        JOptionPane.showMessageDialog(null,"SubTotal = R$"+total+".");
-        menu = Integer.parseInt(JOptionPane.showInputDialog(null,"Escolha o método de pagamento:\n1 - Dinheiro\n2 - Cheque\n3 - Cartão de Crédito"));
-        Metodos metodo1 = new Metodos();
-        metodo1.Menu(menu, total);
-        }
-    }
-    
-class Metodos{
-    void Menu(int menu, float valor){
-        int parcelamentoCartao;
-        int parcelamentoCheque;
-        float valorCartao;
-        float valorCheque;
-        double valorDinheiro;
         
-        switch(menu){
-            case 1:
-                JOptionPane.showMessageDialog(null,"Você optou por dinheiro. Você possui 10% de desconto\n");
-                valorDinheiro = valor * 0.9;
-                JOptionPane.showMessageDialog(null, "O valor com desconto é "+valorDinheiro);
-                
-                
-                break;
-            case 2:
-                JOptionPane.showMessageDialog(null,"Você optou por cheque. É possível parcelar em até 3x\n");
-                parcelamentoCheque = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite em até quantas vezes deseja parcelar\n"));
-                valorCheque = valor/parcelamentoCheque;
-                JOptionPane.showMessageDialog(null, "Dividindo em "+parcelamentoCheque+" cada parcela fica a "+valorCheque);
-                break;
-            case 3:
-                JOptionPane.showMessageDialog(null,"Você optou por cartão de crédito. É possível parcelar em até 10x\n");
-                parcelamentoCartao = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite em até quantas vezes deseja parcelar"));
-                valorCartao = valor/parcelamentoCartao;
-                JOptionPane.showMessageDialog(null,"Dividindo em "+parcelamentoCartao+" cada parcela fica a "+valorCartao);
-                break;
-            default:
-                JOptionPane.showMessageDialog(null,"Opção Inválida! Tente novamente.");
-                break;
-        }
+        CaixaRegistradora caixa = new CaixaRegistradora();
+        float valorProduto;
+        
+        do{
+            valorProduto = Float.parseFloat(JOptionPane.showInputDialog("Entre com o valor do produto.\nDigite 0 para sair"));
+            caixa.somaValores(valorProduto);
+        }while(valorProduto!=0);
+        
+        JOptionPane.showMessageDialog(null, "O valor da compra é de "+caixa.mostraValorTotal());
+        
     }
 }
-  
+
+class CaixaRegistradora{       
+ 
+    float valorTotal;        
+ 
+    void somaValores(float valorProduto){
+        valorTotal=valorTotal+valorProduto;
+    }
+    
+    float mostraValorTotal(){
+        return valorTotal;
+    }
+    
+    
+}
