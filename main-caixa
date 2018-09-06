@@ -34,7 +34,8 @@ public class Caixa {
         float[] valores = new float[quantidade];
         Menu m = new Menu();
         for(int i = 0; i<quantidade; i++){
-            produtos = Float.parseFloat(JOptionPane.showInputDialog(null,"Digite o preço do produto "+i+1+"/"+quantidade));
+            int j = i+1;
+            produtos = Float.parseFloat(JOptionPane.showInputDialog(null,"Digite o preço do produto "+j+"/"+quantidade));
             total = total + produtos;
             valores[i] = produtos;
         }
@@ -48,7 +49,7 @@ class Menu{
         int menu = Integer.parseInt(JOptionPane.showInputDialog(null,"Selecione o método de pagamento\n1-Dinheiro\n2-Cheque\n3-Cartão de Cŕedito"));
         switch(menu){
             case 1:
-                pagamentoDinheiro(float total);
+                pagamentoDinheiro();
                 break;
             case 2:
                 pagamentoCheque();
