@@ -40,38 +40,66 @@ public class Caixa {
             valores[i] = produtos;
         }
         JOptionPane.showMessageDialog(null,"Total R$ "+total);
-        m.metodoPagamento();                
+        m.metodoPagamento(total);
+        System.out.println("Cupom Fiscal");
+        for(int i=0;i<quantidade;i++){
+            System.out.println("Produto"+(i+1)+".......................R$ "+valores[i]);
+        }
+        System.out.println("Obrigado e Volte Sempre!");
     }
 }
 
 class Menu{
-    void metodoPagamento(){
+    void metodoPagamento(float total){
         int menu = Integer.parseInt(JOptionPane.showInputDialog(null,"Selecione o método de pagamento\n1-Dinheiro\n2-Cheque\n3-Cartão de Cŕedito"));
         switch(menu){
             case 1:
-                pagamentoDinheiro();
+                pagamentoDinheiro(total);
                 break;
             case 2:
-                pagamentoCheque();
+                pagamentoCheque(total);
                 break;
             case 3:
-                pagamentoCartao();
+                pagamentoCartao(total);
                 break;
             default:
                 JOptionPane.showMessageDialog(null,"Opção Inválida! Selecione a opção correta");
-                metodoPagamento();
+                metodoPagamento(total);
                 break;
         }
     }
 }
 
 class Pagamento{
-    void pagmentoDinheiro(int total){
+    void pagmentoDinheiro(float total){
         JOptionPane.showMessageDialog(null,"Pagamento em Dinheiro");
         float totalDesconto = (float) (total * 0.9);
         float troco;
         JOptionPane.showMessageDialog(null,"O valor com desconto de 10% é de R$ "+totalDesconto);
         float recebido = Float.parseFloat(JOptionPane.showInputDialog(null,"Entre com o valor recebido do Cliente"));
+    }
+    void pagamentoCheque(float total){
+        JOptionPane.showMessageDialog(null,"Pagamento em Cheque");
+        float totalDesconto = (float) (total * 0.95);
+        int prestacao = Integer.parseInt(JOptionPane.showInputDialog(null,"Selecione o número de parcelas\n1 - 1x com 5% de desconto R$ "+totalDesconto+"\n2 - 2x R$ "+total/2+"\n3 - 3x R$ "+total/3));
+        if(prestacao>1){
+            JOptionPane.showMessageDialog(null,"Resumo:\nTotal R$ "+total+"\nPagamento em Cheque em "+prestacao+" prestações de R$ "+total/prestacao);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Resumo:\nTotal R$"+total+"\nPagamento em Cheque em 1 prestação de R$"+totalDesconto);
+        }
+        JOptionPane.showMessageDialog(null,"Obrigado e Volte Sempre!");
+    }
+    void pagamentoCartao(float total){
+        JOptionPane.showMessageDialog(null,"Pagamento em Cartão de Crédito");
+        float[] parcela = new float[10];
+        for(int i = 0; i<10;i++){
+            parcela[i] = total/(i+1);
+        }
+        int prestacao = Integer.parseInt(JOptionPane.showInputDialog(null,"Selecione o número de parcelas\n1-1x R$ "+parcela[0]+"\n2-2x R$ "+parcela[1]+"\n3-3x R$ "+parcela[2]+"\n4-4x R$ "+parcela[3]+"\n5-5x R$ "+parcela[4]+"\n6-6x R$ "+parcela[5]+"\n7-7x R$ "+parcela[6]+"\n8-8x R$ "+parcela[7]+"\n9-9x R$ "+parcela[8]+"\n10-10x R$ "+parcela[9]));
+        JOptionPane.showMessageDialog(null,"Resumo:\nTotal R$ "+total+"\n Pagamento com Cartão de Crédito em "+prestacao+"x de "+parcela[(prestacao-1)]);
+        JOptionPane.showMessageDialog(null,"Transação Concluída!");
+        JOptionPane.showMessageDialog(null,"Obrigado e Volte Sempre!");
     }
 }
     
