@@ -1,12 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* Por fazer:
+ * 
+ * 1-Apriomorar o método relativo ao dinheiro:
+ *   -mostrar quantia recebida pelo usuário.
+ *   -calcular troco.
+ * 2-Arrumar os métodos na Classe Menu
+ *
+ * Menor importância:
+ * 3-Mostrar mensagens de conclusão:
+ *   -Transação concluida.
+ *   -Obrigado, volte sempre, blá blá blá.
+ * 
+ * Definitivamente sem importância:
+ * 4-Criar metodo para emissão de cupons:
+ *  -lista dos procutos e preços(produto 1........R$xx,xx)
+ *  
  */
 package caixa;
 
 import javax.swing.JOptionPane;
-
+import javax.swing.*;
+import java.awt.*;
 /**
  *
  * @author Gabriel e Luan
@@ -17,52 +30,96 @@ public class Caixa {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        float produto;
-        float total = 0;
-        int menu;
-        do{
-            produto = Float.parseFloat(JOptionPane.showInputDialog(null,"Entre com o valor do produto separado por ponto final.\n Digite '0' para sair."));
-            total = total + produto;
-        }while(produto!=0);
-        JOptionPane.showMessageDialog(null,"SubTotal = R$"+total+".");
-        menu = Integer.parseInt(JOptionPane.showInputDialog(null,"Escolha o método de pagamento:\n1 - Dinheiro\n2 - Cheque\n3 - Cartão de Crédito"));
-        Metodos metodo1 = new Metodos();
-        metodo1.Menu(menu, total);
+        float produtos;
+        float total=0;
+        JLabel boasvindas=new JLabel("Seja Bem Vindo!");
+        boasvindas.setHorizontalAlignment(SwingConstants.CENTER);
+        boasvindas.setPreferredSize(new Dimension(300,70));
+        boasvindas.setFont(new Font("Dialog", Font.PLAIN, 24));
+        JOptionPane.showMessageDialog(null, boasvindas, "Bem Vindo!", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Esse sistema foi desenvolvido por:\n\n- Gabriel Brandão de Mello\n- Luan Kol", "Bem Vindo!", JOptionPane.PLAIN_MESSAGE);
+        JLabel label=new JLabel();
+        label.setText("Para dar início a caixa registradora aperte ok");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(400,70));
+        label.setFont(new Font("Dialog", Font.PLAIN, 14));
+        JOptionPane.showMessageDialog(null, label, "Caixa Registradora", JOptionPane.PLAIN_MESSAGE);
+        int quantidade = Integer.parseInt(JOptionPane.showInputDialog(null, "\nDigite a quantidade de produtos\n\n", "Caixa Registradora", JOptionPane.PLAIN_MESSAGE));
+        float[] valores = new float[quantidade];
+        Menu m = new Menu();
+        for(int i = 0; i<quantidade; i++){
+            int j = i+1;
+            produtos = Float.parseFloat(JOptionPane.showInputDialog(null, "Digite o preço do produto ("+j+"/"+quantidade+")", "Caixa Registradora", JOptionPane.PLAIN_MESSAGE));
+            total = total + produtos;
+            valores[i] = produtos;
         }
+        JOptionPane.showMessageDialog(null,"Valor da Compra \nR$ "+total);
+        m.metodoPagamento(total);
+        System.out.println("Cupom Fiscal");
+        for(int i=0;i<quantidade;i++){
+            System.out.println("Produto"+(i+1)+".......................R$ "+valores[i]);
+        }
+        System.out.println("Obrigado e Volte Sempre!");
     }
-    
-class Metodos{
-    void Menu(int menu, float valor){
-        int parcelamentoCartao;
-        int parcelamentoCheque;
-        float valorCartao;
-        float valorCheque;
-        double valorDinheiro;
+}
+
+class Menu{
+    void metodoPagamento(float total){
+        int menu = Integer.parseInt(JOptionPane.showInputDialog(null,"Selecione o método de pagamento\n1-Dinheiro\n2-Cheque\n3-Cartão de Cŕedito"));
+        Pagamento pag=new Pagamento();
         
         switch(menu){
             case 1:
-                JOptionPane.showMessageDialog(null,"Você optou por dinheiro. Você possui 10% de desconto\n");
-                valorDinheiro = valor * 0.9;
-                JOptionPane.showMessageDialog(null, "O valor com desconto é "+valorDinheiro);
-                
-                
+                pag.pagamentoDinheiro(total);
                 break;
             case 2:
-                JOptionPane.showMessageDialog(null,"Você optou por cheque. É possível parcelar em até 3x\n");
-                parcelamentoCheque = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite em até quantas vezes deseja parcelar\n"));
-                valorCheque = valor/parcelamentoCheque;
-                JOptionPane.showMessageDialog(null, "Dividindo em "+parcelamentoCheque+" cada parcela fica a "+valorCheque);
+                pag.pagamentoCheque(total);
                 break;
             case 3:
-                JOptionPane.showMessageDialog(null,"Você optou por cartão de crédito. É possível parcelar em até 10x\n");
-                parcelamentoCartao = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite em até quantas vezes deseja parcelar"));
-                valorCartao = valor/parcelamentoCartao;
-                JOptionPane.showMessageDialog(null,"Dividindo em "+parcelamentoCartao+" cada parcela fica a "+valorCartao);
+                pag.pagamentoCartao(total);
                 break;
             default:
-                JOptionPane.showMessageDialog(null,"Opção Inválida! Tente novamente.");
+                JOptionPane.showMessageDialog(null,"Opção Inválida! Selecione a opção correta");
+                metodoPagamento(total);
                 break;
         }
     }
 }
-  
+
+class Pagamento{
+    void pagamentoDinheiro(float total){
+        JOptionPane.showMessageDialog(null,"Pagamento em Dinheiro");
+        float totalDesconto = (float) (total * 0.9);
+        float troco;
+        JOptionPane.showMessageDialog(null,"O valor com desconto de 10% é de R$ "+totalDesconto);
+        float recebido = Float.parseFloat(JOptionPane.showInputDialog(null,"Entre com o valor recebido do Cliente"));
+        JOptionPane.showMessageDialog(null, "O valor recebido do cliente foi:\nR$ "+recebido);
+        troco=recebido-totalDesconto;
+        JOptionPane.showMessageDialog(null, "O valor do troco é de:\nR$ "+troco);
+        JOptionPane.showMessageDialog(null,"Obrigado e Volte Sempre!");
+    }
+    void pagamentoCheque(float total){
+        JOptionPane.showMessageDialog(null,"Pagamento em Cheque");
+        float totalDesconto = (float) (total * 0.95);
+        int prestacao = Integer.parseInt(JOptionPane.showInputDialog(null,"Selecione o número de parcelas\n1 - 1x com 5% de desconto R$ "+totalDesconto+"\n2 - 2x R$ "+total/2+"\n3 - 3x R$ "+total/3));
+        if(prestacao>1){
+            JOptionPane.showMessageDialog(null,"Resumo:\nTotal R$ "+total+"\nPagamento em Cheque em "+prestacao+" prestações de R$ "+total/prestacao);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Resumo:\nTotal R$"+total+"\nPagamento em Cheque em 1 prestação de R$"+totalDesconto);
+        }
+        JOptionPane.showMessageDialog(null,"Obrigado e Volte Sempre!");
+    }
+    void pagamentoCartao(float total){
+        JOptionPane.showMessageDialog(null,"Pagamento em Cartão de Crédito");
+        float[] parcela = new float[10];
+        for(int i = 0; i<10;i++){
+            parcela[i] = total/(i+1);
+        }
+        int prestacao = Integer.parseInt(JOptionPane.showInputDialog(null,"Selecione o número de parcelas\n1-1x R$ "+parcela[0]+"\n2-2x R$ "+parcela[1]+"\n3-3x R$ "+parcela[2]+"\n4-4x R$ "+parcela[3]+"\n5-5x R$ "+parcela[4]+"\n6-6x R$ "+parcela[5]+"\n7-7x R$ "+parcela[6]+"\n8-8x R$ "+parcela[7]+"\n9-9x R$ "+parcela[8]+"\n10-10x R$ "+parcela[9]));
+        JOptionPane.showMessageDialog(null,"Resumo:\nTotal R$ "+total+"\n Pagamento com Cartão de Crédito em "+prestacao+"x de "+parcela[(prestacao-1)]);
+        JOptionPane.showMessageDialog(null,"Transação Concluída!");
+        JOptionPane.showMessageDialog(null,"Obrigado e Volte Sempre!");
+    }
+}
+    
