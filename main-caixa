@@ -15,9 +15,11 @@
  *  -lista dos procutos e preços(produto 1........R$xx,xx)
  *  
  */
+package caixa;
 
 import javax.swing.JOptionPane;
-
+import javax.swing.*;
+import java.awt.*;
 /**
  *
  * @author Gabriel e Luan
@@ -30,16 +32,38 @@ public class Caixa {
     public static void main(String[] args) {
         float produtos;
         float total=0;
-        int quantidade = Integer.parseInt(JOptionPane.showInputDialog(null,"Digite a quantidade de produtos"));
+        int confirm=1;
+        
+        JLabel boasvindas=new JLabel("Seja Bem Vindo!");
+        boasvindas.setHorizontalAlignment(SwingConstants.CENTER);
+        boasvindas.setPreferredSize(new Dimension(300,70));
+        boasvindas.setFont(new Font("Dialog", Font.PLAIN, 24));
+        JOptionPane.showMessageDialog(null, boasvindas, "Bem Vindo!", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Esse sistema foi desenvolvido por:\n\n- Gabriel Brandão de Mello\n- Luan Kol", "Bem Vindo!", JOptionPane.PLAIN_MESSAGE);
+        JLabel label=new JLabel();
+        label.setText("Para dar início a caixa registradora aperte ok");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setPreferredSize(new Dimension(400,70));
+        label.setFont(new Font("Dialog", Font.PLAIN, 14));
+        JOptionPane.showMessageDialog(null, label, "Caixa Registradora", JOptionPane.PLAIN_MESSAGE);
+        
+        int quantidade = Integer.parseInt(JOptionPane.showInputDialog(null, "\nDigite a quantidade de produtos\n\n", "Caixa Registradora", JOptionPane.PLAIN_MESSAGE));           
+        while(confirm==1){
+            confirm=JOptionPane.showConfirmDialog(null, "Foram registrados "+quantidade+" produtos. Deseja prosseguir?");
+            if(confirm==1){
+                quantidade = Integer.parseInt(JOptionPane.showInputDialog(null, "\nDigite a quantidade de produtos\n\n", "Caixa Registradora", JOptionPane.PLAIN_MESSAGE));  
+            }
+        }      
+        
         float[] valores = new float[quantidade];
         Menu m = new Menu();
         for(int i = 0; i<quantidade; i++){
             int j = i+1;
-            produtos = Float.parseFloat(JOptionPane.showInputDialog(null,"Digite o preço do produto "+j+"/"+quantidade));
+            produtos = Float.parseFloat(JOptionPane.showInputDialog(null, "Digite o preço do produto ("+j+"/"+quantidade+")", "Caixa Registradora", JOptionPane.PLAIN_MESSAGE));
             total = total + produtos;
             valores[i] = produtos;
         }
-        JOptionPane.showMessageDialog(null,"Total R$ "+total);
+        JOptionPane.showMessageDialog(null,"Valor da Compra \nR$ "+total);
         m.metodoPagamento(total);
         System.out.println("Cupom Fiscal");
         for(int i=0;i<quantidade;i++){
@@ -52,15 +76,17 @@ public class Caixa {
 class Menu{
     void metodoPagamento(float total){
         int menu = Integer.parseInt(JOptionPane.showInputDialog(null,"Selecione o método de pagamento\n1-Dinheiro\n2-Cheque\n3-Cartão de Cŕedito"));
+        Pagamento pag=new Pagamento();
+        
         switch(menu){
             case 1:
-                pagamentoDinheiro(total);
+                pag.pagamentoDinheiro(total);
                 break;
             case 2:
-                pagamentoCheque(total);
+                pag.pagamentoCheque(total);
                 break;
             case 3:
-                pagamentoCartao(total);
+                pag.pagamentoCartao(total);
                 break;
             default:
                 JOptionPane.showMessageDialog(null,"Opção Inválida! Selecione a opção correta");
@@ -71,12 +97,28 @@ class Menu{
 }
 
 class Pagamento{
-    void pagmentoDinheiro(float total){
+    void pagamentoDinheiro(float total){
+        
         JOptionPane.showMessageDialog(null,"Pagamento em Dinheiro");
         float totalDesconto = (float) (total * 0.9);
         float troco;
+        int i=0;
         JOptionPane.showMessageDialog(null,"O valor com desconto de 10% é de R$ "+totalDesconto);
         float recebido = Float.parseFloat(JOptionPane.showInputDialog(null,"Entre com o valor recebido do Cliente"));
+        
+        do{
+            troco=recebido-totalDesconto;
+            if(troco<0){
+                recebido = Float.parseFloat(JOptionPane.showInputDialog(null,"Valor menor que a compra, por favor digite novamente"));
+            }
+            else{
+                i=1;
+            }
+        }while(i!=1);
+        JOptionPane.showMessageDialog(null, "O valor recebido do cliente foi:\nR$ "+recebido);
+        
+        JOptionPane.showMessageDialog(null, "O valor do troco é de:\nR$ "+troco);
+        JOptionPane.showMessageDialog(null,"Obrigado e Volte Sempre!");
     }
     void pagamentoCheque(float total){
         JOptionPane.showMessageDialog(null,"Pagamento em Cheque");
@@ -103,4 +145,3 @@ class Pagamento{
     }
 }
     
-
